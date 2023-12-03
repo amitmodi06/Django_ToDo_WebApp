@@ -2,7 +2,16 @@
 
 {% block content %}
     <h1>TO DO List</h1>
-    {% for task in task_list %}
-        <p>{{ task }}</p>
-    {% endfor %}
+    <table>
+        <tr>
+            <th>To Do Item</th>
+            <th>Done?</th>
+        </tr>
+        {% for item in task_list %}
+            <tr>
+                <td>{{ item.task }}</td>
+                <td>{{ item.is_done }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock content %}
