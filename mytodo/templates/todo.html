@@ -2,16 +2,31 @@
 
 {% block content %}
     <h1>TO DO List</h1>
-    <table>
-        <tr>
-            <th>To Do Item</th>
-            <th>Done?</th>
-        </tr>
-        {% for item in task_list %}
+    <form method="post" action="{% url "displayToDo" %}">
+        {% csrf_token %}
+        <table >
             <tr>
-                <td>{{ item.task }}</td>
-                <td>{{ item.is_done }}</td>
+                <th>To Do Item</th> 
+                <th>Action</th>               
             </tr>
-        {% endfor %}
-    </table>
+            {% if not form.instance.id %}
+                <tr>
+                    {% include "save.html" %}
+                </tr>
+            {% endif %}
+            {% for item in task_list %}
+                <tr>                    
+                    {% if form.instance.id == item.id %}
+                        {% include "save.html" %}
+                    {% else %}
+                    <td>{{ item.task }}</td> 
+                    <td>
+                        <button formnovalidate class="btn btn-success" name="edit" value={{ item.id }}>Edit</button>
+                        <button formnovalidate class="btn btn-danger" name="delete" value={{ item.id }}>Delete</button>
+                    </td>
+                    {% endif %}                   
+                </tr>
+            {% endfor %}
+        </table>
+    </form>
 {% endblock content %}
